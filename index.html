@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CFX Hawaii — Exhibit Design, Fabrication & I&D in Honolulu</title>
+<meta name="description" content="Turn-key trade show exhibits designed, fabricated, and installed in Honolulu. In-house CNC, carpentry, graphics, rentals, and local I&D crews for the Hawai'i Convention Center and beyond.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5F6F3;        /* drafting paper */
+    --ink:#17263B;          /* blueprint ink navy */
+    --ink-soft:#41506A;     /* secondary text */
+    --line:#C7CCD2;         /* hairline drawing lines */
+    --tape:#F2B705;         /* measuring-tape yellow */
+    --ply:#C99B5F;          /* birch ply */
+    --white:#FFFFFF;
+    --display:'Big Shoulders Display',sans-serif;
+    --body:'Archivo',sans-serif;
+    --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--body);
+    color:var(--ink);
+    background:var(--paper);
+    /* faint drafting grid */
+    background-image:
+      linear-gradient(var(--paper) 0, var(--paper) 0),
+      repeating-linear-gradient(0deg, transparent 0 31px, rgba(23,38,59,.045) 31px 32px),
+      repeating-linear-gradient(90deg, transparent 0 31px, rgba(23,38,59,.045) 31px 32px);
+    line-height:1.6;
+    font-size:16px;
+  }
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  .mono{font-family:var(--mono)}
+
+  /* ---------- dimension-label signature ---------- */
+  .dim{
+    font-family:var(--mono);
+    font-size:.72rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    display:flex;align-items:center;gap:12px;
+  }
+  .dim::before,.dim::after{content:"";height:1px;background:var(--ink-soft);flex:0 0 34px;position:relative}
+  .dim::before{margin-right:2px}
+  .dim.left::after{display:none}
+  .dim.left::before{display:none}
+  .dim.left{gap:0}
+  .tick{display:inline-block;width:1px;height:10px;background:var(--ink-soft);margin:0 8px;vertical-align:middle}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(245,246,243,.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .logo{display:flex;align-items:baseline;gap:10px;text-decoration:none}
+  .logo .mark{
+    font-family:var(--display);font-weight:800;font-size:1.7rem;letter-spacing:.02em;
+    padding:2px 8px;border:2px solid var(--ink);line-height:1.15;
+  }
+  .logo .sub{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+  nav ul{display:flex;gap:28px;list-style:none}
+  nav a{text-decoration:none;font-size:.88rem;font-weight:500;color:var(--ink-soft)}
+  nav a:hover{color:var(--ink)}
+  .call{
+    text-decoration:none;background:var(--ink);color:var(--white);
+    font-weight:600;font-size:.88rem;padding:10px 18px;border-radius:3px;
+    transition:background .15s;
+    white-space:nowrap;
+  }
+  .call:hover{background:#0E1930}
+  .menu-btn{display:none;background:none;border:1px solid var(--line);border-radius:3px;padding:8px 10px;font-family:var(--mono);font-size:.75rem;cursor:pointer;color:var(--ink)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:72px 0 64px;position:relative;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+  .hero h1{
+    font-family:var(--display);font-weight:800;
+    font-size:clamp(2.6rem,5.4vw,4.3rem);
+    line-height:1.02;letter-spacing:.005em;
+    text-transform:uppercase;
+    margin:18px 0 20px;
+  }
+  .hero h1 .hl{color:transparent;-webkit-text-stroke:2px var(--ink)}
+  .hero p.lead{font-size:1.06rem;color:var(--ink-soft);max-width:46ch;margin-bottom:30px}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .btn-primary{
+    text-decoration:none;background:var(--tape);color:var(--ink);
+    font-weight:700;padding:14px 26px;border-radius:3px;font-size:.95rem;
+    border:2px solid var(--ink);
+    box-shadow:4px 4px 0 var(--ink);
+    transition:transform .12s, box-shadow .12s;
+  }
+  .btn-primary:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+  .btn-ghost{
+    text-decoration:none;font-weight:600;font-size:.95rem;color:var(--ink);
+    padding:14px 6px;border-bottom:2px solid var(--tape);
+  }
+
+  /* hero CAD drawing */
+  .draw-frame{border:1px solid var(--line);background:var(--white);padding:22px;position:relative}
+  .draw-frame .stamp{
+    position:absolute;top:14px;right:14px;
+    font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+    border:1px solid var(--ink-soft);color:var(--ink-soft);padding:4px 8px;
+    transform:rotate(2deg);background:var(--white);
+  }
+  .titleblock{
+    margin-top:16px;border-top:1px solid var(--line);padding-top:10px;
+    display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;color:var(--ink-soft);text-transform:uppercase;
+  }
+  svg .sketch{
+    fill:none;stroke:var(--ink);stroke-width:2;
+    stroke-dasharray:1600;stroke-dashoffset:1600;
+    animation:drawin 2.4s ease forwards;
+  }
+  svg .sketch.s2{animation-delay:.5s}
+  svg .sketch.s3{animation-delay:1s}
+  svg .dimline{stroke:var(--ink-soft);stroke-width:1;fill:none;opacity:0;animation:fadein .8s ease 1.8s forwards}
+  svg .dimtext{font-family:var(--mono);font-size:11px;fill:var(--ink-soft);opacity:0;animation:fadein .8s ease 1.9s forwards}
+  svg .fillply{fill:rgba(201,155,95,.28);opacity:0;animation:fadein 1s ease 1.4s forwards}
+  svg .filltape{fill:rgba(242,183,5,.5);opacity:0;animation:fadein 1s ease 1.6s forwards}
+  @keyframes drawin{to{stroke-dashoffset:0}}
+  @keyframes fadein{to{opacity:1}}
+  @media (prefers-reduced-motion: reduce){
+    svg .sketch{animation:none;stroke-dashoffset:0}
+    svg .dimline,svg .dimtext,svg .fillply,svg .filltape{animation:none;opacity:1}
+    *{transition:none!important}
+  }
+
+  /* ---------- trust strip ---------- */
+  .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--white)}
+  .strip .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+  .strip .cell{padding:22px 18px;border-left:1px solid var(--line)}
+  .strip .cell:first-child{border-left:none}
+  .strip .num{font-family:var(--display);font-weight:800;font-size:2rem;line-height:1}
+  .strip .lab{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-top:6px}
+
+  /* ---------- sections ---------- */
+  section{padding:84px 0}
+  .sec-head{margin-bottom:44px;max-width:60ch}
+  h2{
+    font-family:var(--display);font-weight:800;text-transform:uppercase;
+    font-size:clamp(1.9rem,3.6vw,2.7rem);line-height:1.05;margin:14px 0 12px;
+  }
+  .sec-head p{color:var(--ink-soft)}
+
+  /* build sheet — services */
+  .sheet{border:1px solid var(--ink);background:var(--white)}
+  .sheet-head{
+    display:grid;grid-template-columns:64px 1.1fr 2fr;gap:18px;
+    padding:12px 20px;background:var(--ink);color:var(--paper);
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
+  }
+  .row{
+    display:grid;grid-template-columns:64px 1.1fr 2fr;gap:18px;
+    padding:22px 20px;border-top:1px solid var(--line);
+    transition:background .15s;
+  }
+  .row:hover{background:rgba(242,183,5,.10)}
+  .row .no{font-family:var(--mono);font-size:.8rem;color:var(--ink-soft);padding-top:3px}
+  .row h3{font-family:var(--display);font-weight:700;font-size:1.25rem;text-transform:uppercase;letter-spacing:.02em}
+  .row p{color:var(--ink-soft);font-size:.94rem}
+
+  /* mainland partners callout */
+  .callout{
+    background:var(--ink);color:var(--paper);
+    border-radius:4px;padding:44px 40px;
+    display:grid;grid-template-columns:1.4fr 1fr;gap:36px;align-items:center;
+  }
+  .callout h2{color:var(--white)}
+  .callout .dim{color:rgba(245,246,243,.7)}
+  .callout .dim::before,.callout .dim::after{background:rgba(245,246,243,.5)}
+  .callout p{color:rgba(245,246,243,.82)}
+  .callout .btn-primary{box-shadow:4px 4px 0 var(--tape);border-color:var(--tape)}
+  .callout .btn-primary:hover{box-shadow:2px 2px 0 var(--tape)}
+  .callout ul{list-style:none;display:grid;gap:12px}
+  .callout li{
+    font-family:var(--mono);font-size:.8rem;letter-spacing:.04em;
+    border:1px solid rgba(245,246,243,.28);padding:12px 14px;border-radius:3px;
+  }
+  .callout li::before{content:"■ ";color:var(--tape)}
+
+  /* ---------- work grid ---------- */
+  .work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .card{background:var(--white);border:1px solid var(--line)}
+  .ph{
+    aspect-ratio:4/3;position:relative;overflow:hidden;
+    background:
+      repeating-linear-gradient(45deg, rgba(23,38,59,.06) 0 10px, transparent 10px 20px),
+      linear-gradient(160deg,#E9EBE6,#DDE0DA);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .ph span{
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-soft);border:1px dashed var(--ink-soft);padding:6px 10px;background:rgba(255,255,255,.75);
+    text-align:center;max-width:80%;
+  }
+  .card .cap{padding:16px 18px 18px;border-top:1px solid var(--line)}
+  .card .cap h3{font-family:var(--display);font-weight:700;font-size:1.1rem;text-transform:uppercase}
+  .card .cap .meta{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-top:6px}
+
+  /* ---------- process ---------- */
+  .proc{display:grid;grid-template-columns:repeat(7,1fr);gap:0;border:1px solid var(--ink);background:var(--white)}
+  .step{padding:22px 16px;border-left:1px solid var(--line);position:relative}
+  .step:first-child{border-left:none}
+  .step .n{font-family:var(--mono);font-size:.7rem;color:var(--ink-soft);letter-spacing:.1em}
+  .step h4{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:1rem;margin:8px 0 6px}
+  .step p{font-size:.82rem;color:var(--ink-soft);line-height:1.5}
+  .step::after{
+    content:"";position:absolute;top:0;left:0;height:4px;width:100%;background:transparent;
+  }
+  .step:hover::after{background:var(--tape)}
+
+  /* ---------- testimonials ---------- */
+  .quotes{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+  .quote{background:var(--white);border:1px solid var(--line);padding:28px;position:relative}
+  .quote::before{
+    content:"“";font-family:var(--display);font-weight:800;font-size:3.4rem;line-height:1;
+    color:var(--tape);position:absolute;top:14px;left:20px;
+  }
+  .quote p{margin-top:26px;font-size:1rem}
+  .quote .who{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-top:16px}
+
+  /* ---------- quote form ---------- */
+  .rfq{background:var(--white);border:2px solid var(--ink);padding:44px 40px;box-shadow:8px 8px 0 rgba(23,38,59,.12)}
+  .rfq-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field.full{grid-column:1 / -1}
+  label{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+  input,select,textarea{
+    font-family:var(--body);font-size:.95rem;color:var(--ink);
+    padding:12px 14px;border:1px solid var(--line);border-radius:3px;background:var(--paper);
+    width:100%;
+  }
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--tape);outline-offset:1px;border-color:var(--ink)}
+  textarea{min-height:110px;resize:vertical}
+  .rfq .btn-primary{margin-top:22px;display:inline-block;cursor:pointer;font-family:var(--body)}
+  .rfq .note{font-size:.82rem;color:var(--ink-soft);margin-top:14px}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--ink);color:rgba(245,246,243,.85);padding:56px 0 40px;margin-top:40px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px}
+  footer .mark{
+    font-family:var(--display);font-weight:800;font-size:1.5rem;color:var(--white);
+    border:2px solid var(--white);display:inline-block;padding:2px 8px;margin-bottom:14px;
+  }
+  footer h5{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--tape);margin-bottom:14px}
+  footer ul{list-style:none;display:grid;gap:8px;font-size:.9rem}
+  footer a{text-decoration:none}
+  footer a:hover{color:var(--white);text-decoration:underline}
+  .foot-base{
+    border-top:1px solid rgba(245,246,243,.2);margin-top:44px;padding-top:20px;
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,246,243,.55);
+  }
+
+  /* reveal on scroll */
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:920px){
+    .hero-grid{grid-template-columns:1fr}
+    .strip .wrap{grid-template-columns:repeat(2,1fr)}
+    .strip .cell:nth-child(3){border-left:none}
+    .callout{grid-template-columns:1fr;padding:34px 26px}
+    .work-grid{grid-template-columns:repeat(2,1fr)}
+    .proc{grid-template-columns:repeat(2,1fr)}
+    .step{border-top:1px solid var(--line)}
+    .quotes{grid-template-columns:1fr}
+    nav ul{display:none}
+    .menu-btn{display:block}
+    nav.open ul{
+      display:grid;position:absolute;top:68px;left:0;right:0;
+      background:var(--paper);border-bottom:1px solid var(--line);
+      padding:18px 24px;gap:14px;
+    }
+  }
+  @media (max-width:600px){
+    .work-grid{grid-template-columns:1fr}
+    .rfq-grid{grid-template-columns:1fr}
+    .rfq{padding:30px 22px}
+    .sheet-head{display:none}
+    .row{grid-template-columns:1fr;gap:8px}
+    .foot-grid{grid-template-columns:1fr}
+    .proc{grid-template-columns:1fr}
+    section{padding:60px 0}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="CFX Hawaii home">
+      <span class="mark">CFX</span>
+      <span class="sub">Hawaii · Exhibit &amp; Visual Design</span>
+    </a>
+    <nav id="nav">
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#work">Recent Work</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#mainland">Exhibit Houses</a></li>
+        <li><a href="#quote">Request a Quote</a></li>
+      </ul>
+    </nav>
+    <div style="display:flex;gap:12px;align-items:center">
+      <a class="call" href="tel:+18085550100">(808) 555-0100</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu">MENU</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="dim left">DWG NO. CFX-2026 <span class="tick"></span> HONOLULU, HI</span>
+        <h1>Designed. Built.<br>Installed. <span class="hl">In&nbsp;Hawai&#699;i.</span></h1>
+        <p class="lead">Turn-key trade show exhibits from one Honolulu shop — planning, design, in-house fabrication, graphics, rentals, and a local install &amp; dismantle crew that knows every loading dock on the island.</p>
+        <div class="cta-row">
+          <a class="btn-primary" href="#quote">Request a Quote</a>
+          <a class="btn-ghost" href="#work">See recent builds →</a>
+        </div>
+      </div>
+
+      <div class="draw-frame reveal">
+        <span class="stamp">For Review</span>
+        <svg viewBox="0 0 520 340" role="img" aria-label="Shop drawing of a 10 by 20 foot island exhibit booth elevation with dimension lines">
+          <!-- floor line -->
+          <path class="sketch" d="M20 300 L500 300"/>
+          <!-- back wall -->
+          <rect class="fillply" x="60" y="90" width="300" height="210"/>
+          <path class="sketch s2" d="M60 300 L60 90 L360 90 L360 300"/>
+          <!-- header sign -->
+          <rect class="filltape" x="110" y="50" width="200" height="34"/>
+          <path class="sketch s2" d="M110 84 L110 50 L310 50 L310 84 Z"/>
+          <!-- counter -->
+          <path class="sketch s3" d="M395 300 L395 210 L480 210 L480 300"/>
+          <path class="sketch s3" d="M388 210 L487 210"/>
+          <!-- monitor on wall -->
+          <path class="sketch s3" d="M150 140 L270 140 L270 210 L150 210 Z"/>
+          <!-- dimension: width -->
+          <path class="dimline" d="M60 320 L360 320 M60 313 L60 327 M360 313 L360 327"/>
+          <text class="dimtext" x="185" y="336">20'-0" BACK WALL</text>
+          <!-- dimension: height -->
+          <path class="dimline" d="M40 90 L40 300 M33 90 L47 90 M33 300 L47 300"/>
+          <text class="dimtext" x="16" y="200" transform="rotate(-90 16 200)">8'-0"</text>
+          <!-- label leaders -->
+          <path class="dimline" d="M310 60 L420 40"/>
+          <text class="dimtext" x="424" y="38">SEG HEADER</text>
+          <path class="dimline" d="M480 250 L500 230"/>
+          <text class="dimtext" x="418" y="224">CNC COUNTER</text>
+        </svg>
+        <div class="titleblock">
+          <span>PROJ: 10×20 ISLAND — HCC HALL III</span>
+          <span>SCALE: NTS</span>
+          <span>FAB: CFX HONOLULU</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST STRIP -->
+  <div class="strip">
+    <div class="wrap">
+      <div class="cell reveal"><div class="num">100%</div><div class="lab">Designed &amp; fabricated in-house</div></div>
+      <div class="cell reveal"><div class="num">Local</div><div class="lab">Kama&#699;aina I&amp;D crews, island-wide</div></div>
+      <div class="cell reveal"><div class="num">1 Shop</div><div class="lab">CNC · carpentry · metal · acrylics</div></div>
+      <div class="cell reveal"><div class="num">Show-Day</div><div class="lab">On-site support, first freight to last crate</div></div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="dim left">SHEET 01 <span class="tick"></span> SCOPE OF WORK</span>
+        <h2>Everything between the idea and the show floor</h2>
+        <p>One team, one shop, one point of contact. No hand-offs between vendors, no freight surprises, no mainland time zones.</p>
+      </div>
+
+      <div class="sheet reveal">
+        <div class="sheet-head"><span>Item</span><span>Service</span><span>Description</span></div>
+
+        <div class="row">
+          <span class="no">01</span>
+          <h3>Planning &amp; Project Management</h3>
+          <p>Advance show planning, logistics, material handling, and vendor coordination — managed step-by-step so your team can focus on the show, not the shipping manifest.</p>
+        </div>
+        <div class="row">
+          <span class="no">02</span>
+          <h3>Design</h3>
+          <p>In-house designers produce CAD drawings, 3D illustrations, and working fabrication details, so what you approve on screen is exactly what gets built.</p>
+        </div>
+        <div class="row">
+          <span class="no">03</span>
+          <h3>Fabrication</h3>
+          <p>CNC work, fine carpentry, metal, and acrylics under one roof in Honolulu. Custom builds without mainland freight costs or crating risk.</p>
+        </div>
+        <div class="row">
+          <span class="no">04</span>
+          <h3>Graphics</h3>
+          <p>Design, production, and installation from SEG fabric walls to wide-format graphics on a full range of substrates.</p>
+        </div>
+        <div class="row">
+          <span class="no">05</span>
+          <h3>Rentals</h3>
+          <p>Counters, tables and chairs, in-line booths, hard-wall modules, SEG walls, and monitors — configured and delivered show-ready.</p>
+        </div>
+        <div class="row">
+          <span class="no">06</span>
+          <h3>Install &amp; Dismantle</h3>
+          <p>A locally based, experienced I&amp;D crew handling everything from simple in-line booths to large-scale pavilions — on time for every move-in window.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAINLAND EXHIBIT HOUSES -->
+  <section id="mainland" style="padding-top:0">
+    <div class="wrap">
+      <div class="callout reveal">
+        <div>
+          <span class="dim left">FOR MAINLAND EXHIBIT HOUSES</span>
+          <h2 style="margin-top:12px">Your boots on the ground in Honolulu</h2>
+          <p style="margin:10px 0 24px">Shipping a program to Hawai&#699;i? CFX partners with nationwide exhibit houses as the local arm — receiving freight, supervising I&amp;D, handling last-minute fabrication and graphics, and sending you photo confirmation before doors open.</p>
+          <a class="btn-primary" href="#quote">Partner With Us</a>
+        </div>
+        <ul>
+          <li>Freight receiving &amp; advance warehousing</li>
+          <li>Supervised or full-service I&amp;D labor</li>
+          <li>Same-week repair, print &amp; fab backup</li>
+          <li>Photo reporting at set &amp; strike</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECENT WORK -->
+  <section id="work" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="dim left">SHEET 02 <span class="tick"></span> AS-BUILT RECORD</span>
+        <h2>Recent builds</h2>
+        <p>A sample of exhibits, pavilions, and environments designed, fabricated, and installed by the CFX team.</p>
+      </div>
+
+      <div class="work-grid">
+        <!-- Swap each .ph block with a real job-site photo:
+             <img src="photos/project-1.jpg" alt="..." loading="lazy"> -->
+        <div class="card reveal">
+          <div class="ph"><span>Photo placeholder<br>— swap with job-site photo —</span></div>
+          <div class="cap">
+            <h3>20×20 Island Booth</h3>
+            <div class="meta">Hawai&#699;i Convention Center · Hall III · 2026</div>
+          </div>
+        </div>
+        <div class="card reveal">
+          <div class="ph"><span>Photo placeholder<br>— swap with job-site photo —</span></div>
+          <div class="cap">
+            <h3>Conference Pavilion Build</h3>
+            <div class="meta">Waikīkī Resort Ballroom · 2026</div>
+          </div>
+        </div>
+        <div class="card reveal">
+          <div class="ph"><span>Photo placeholder<br>— swap with job-site photo —</span></div>
+          <div class="cap">
+            <h3>SEG Wall &amp; Wide-Format Graphics</h3>
+            <div class="meta">Trade Show Install · 2025</div>
+          </div>
+        </div>
+        <div class="card reveal">
+          <div class="ph"><span>Photo placeholder<br>— swap with job-site photo —</span></div>
+          <div class="cap">
+            <h3>Custom CNC Retail Display</h3>
+            <div class="meta">In-House Fabrication · 2025</div>
+          </div>
+        </div>
+        <div class="card reveal">
+          <div class="ph"><span>Photo placeholder<br>— swap with job-site photo —</span></div>
+          <div class="cap">
+            <h3>Multi-Booth I&amp;D Program</h3>
+            <div class="meta">Mainland Exhibit House Partner · 2025</div>
+          </div>
+        </div>
+        <div class="card reveal">
+          <div class="ph"><span>Photo placeholder<br>— swap with job-site photo —</span></div>
+          <div class="cap">
+            <h3>Special Event Environment</h3>
+            <div class="meta">O&#699;ahu · 2024</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="dim left">SHEET 03 <span class="tick"></span> SEQUENCE OF OPERATIONS</span>
+        <h2>From advance planning to post-show</h2>
+      </div>
+      <div class="proc reveal">
+        <div class="step"><span class="n">STEP 01</span><h4>Plan</h4><p>Show logistics, budget, and timeline locked in early.</p></div>
+        <div class="step"><span class="n">STEP 02</span><h4>Design</h4><p>CAD, 3D renders, and working details for approval.</p></div>
+        <div class="step"><span class="n">STEP 03</span><h4>Fabricate</h4><p>Built in our Honolulu shop — CNC, wood, metal, acrylic.</p></div>
+        <div class="step"><span class="n">STEP 04</span><h4>Graphics</h4><p>Printed, finished, and fitted in-house.</p></div>
+        <div class="step"><span class="n">STEP 05</span><h4>Install</h4><p>Local crew sets your space inside the move-in window.</p></div>
+        <div class="step"><span class="n">STEP 06</span><h4>Show Support</h4><p>On call through show days for fixes and changes.</p></div>
+        <div class="step"><span class="n">STEP 07</span><h4>Dismantle</h4><p>Strike, crate, store, or ship — documented and done.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="dim left">SHEET 04 <span class="tick"></span> CLIENT SIGN-OFF</span>
+        <h2>What clients say</h2>
+      </div>
+      <div class="quotes">
+        <!-- Swap with real client quotes / Google reviews -->
+        <div class="quote reveal">
+          <p>[Placeholder testimonial — e.g., "CFX handled our entire booth from design through dismantle. The only thing we shipped to Hawai&#699;i was our product."]</p>
+          <div class="who">Client Name — Company, Show/Year</div>
+        </div>
+        <div class="quote reveal">
+          <p>[Placeholder testimonial — e.g., "As a mainland exhibit house, CFX is our standing partner for every Honolulu install. Photo reports before doors, every time."]</p>
+          <div class="who">Client Name — Exhibit House Partner</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE FORM -->
+  <section id="quote" style="padding-top:0">
+    <div class="wrap">
+      <div class="rfq reveal">
+        <span class="dim left">RFQ FORM <span class="tick"></span> RESPONSE WITHIN 1 BUSINESS DAY</span>
+        <h2 style="margin-bottom:8px">Request a quote</h2>
+        <p style="color:var(--ink-soft);margin-bottom:28px;max-width:60ch">Tell us about your show or project. Rough details are fine — we'll follow up with the questions that matter.</p>
+
+        <!-- Hook this form to Formspree, Netlify Forms, or your handler:
+             e.g. <form action="https://formspree.io/f/XXXX" method="POST"> -->
+        <form action="#" method="POST">
+          <div class="rfq-grid">
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="company">Company</label>
+              <input id="company" name="company" type="text" autocomplete="organization">
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel">
+            </div>
+            <div class="field">
+              <label for="show">Show / Event &amp; Venue</label>
+              <input id="show" name="show" type="text" placeholder="e.g., HCC Hall III, March 2027">
+            </div>
+            <div class="field">
+              <label for="need">What do you need?</label>
+              <select id="need" name="need">
+                <option>Custom exhibit — design &amp; build</option>
+                <option>Rental booth or hard-wall</option>
+                <option>Graphics / SEG walls</option>
+                <option>Install &amp; dismantle labor only</option>
+                <option>Mainland exhibit house partnership</option>
+                <option>Not sure yet — let's talk</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="details">Project details</label>
+              <textarea id="details" name="details" placeholder="Booth size, dates, budget range, anything else…"></textarea>
+            </div>
+          </div>
+          <button class="btn-primary" type="submit">Send Request</button>
+          <p class="note">Prefer to talk? Call <a href="tel:+18085550100"><strong>(808) 555-0100</strong></a> — Mon–Fri, 8am–4:30pm HST.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <span class="mark">CFX</span>
+      <p style="max-width:38ch;font-size:.9rem">Exhibit &amp; visual design, fabrication, and I&amp;D — proudly built in Honolulu for shows across Hawai&#699;i.</p>
+    </div>
+    <div>
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="tel:+18085550100">(808) 555-0100</a></li>
+        <li><a href="mailto:aloha@cfxhawaii.com">aloha@cfxhawaii.com</a></li>
+        <li>[Street Address]<br>Honolulu, HI 96819</li>
+      </ul>
+    </div>
+    <div>
+      <h5>Site</h5>
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#work">Recent Work</a></li>
+        <li><a href="#mainland">Exhibit House Partners</a></li>
+        <li><a href="#quote">Request a Quote</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap foot-base">
+    <span>© 2026 CFX Hawaii LLC · Honolulu, Hawai&#699;i</span>
+    <span>DWG NO. CFX-WEB-01 · REV A</span>
+  </div>
+</footer>
+
+<script>
+  // mobile menu
+  const btn=document.getElementById('menuBtn'),nav=document.getElementById('nav');
+  btn.addEventListener('click',()=>nav.classList.toggle('open'));
+  nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
+
+  // scroll reveal
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
